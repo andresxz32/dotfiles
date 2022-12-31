@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -euo pipefail
+
+
+source "$DOTLY_PATH/scripts/core/_main.sh"
+
+
+##? Change Gnome Terminal Theme
+##?
+##? Usage:
+##?    theme
+docs::parse "$@"
+
+
+
+
+dconfdir=/org/gnome/terminal/legacy/profiles:
+profile_id=$(uuidgen)
+profile_name=Codely
+
+
+dconf write $dconfdir/list "['$profile_id']"
+dconf write $dconfdir/default "'$profile_id'"
+dconf write $dconfdir/:$profile_id/visible-name "'$profile_name'"
+dconf write $dconfdir/:$profile_id/use-theme-colors false
+dconf write $dconfdir/:$profile_id/background_color "'#272329'"
+dconf write $dconfdir/:$profile_id/foreground_color "'#CFC5EF'"
+dconf write $dconfdir/:$profile_id/bold_color "'#FEFFFF'"
+dconf write $dconfdir/:$profile_id/palette "['#282828', '#F67667', '#B8BB26', '#FABD2F', '#84A498', '#D3859A', '#8EC07B', '#EBDBB2', '#928373', '#F28E82', '#B2B437', '#F1BF4A', '#95A19D', '#CD98A6', '#9EBD93', '#E5DDC7']"
+
+
+dconf write $dconfdir/:$profile_id/use-system-font false
+dconf write $dconfdir/:$profile_id/font "'Monospace 14'"
+
+
+dconf write $dconfdir/:$profile_id/use-custom-command true
