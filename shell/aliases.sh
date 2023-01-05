@@ -21,6 +21,7 @@ alias gpsf="git push --force"
 alias gpl="git pull --rebase --autostash"
 alias gb="git branch"
 alias gl='$DOTLY_PATH/bin/dot git pretty-log'
+alias gcl="clone_git_repo"
 
 # Utils
 alias k='kill -9'
@@ -28,3 +29,10 @@ alias i.='(idea $PWD &>/dev/null &)'
 alias c.='(code $PWD &>/dev/null &)'
 alias o.='open .'
 alias up='dot package update_all'
+
+
+# Docker
+alias dcon="docker_connect"
+alias dprune="docker_prune"
+# SSH
+alias awsssh="aws_ssh"
