@@ -65,13 +65,13 @@ ec2_instance_public_ip() {
 }
 
 trobbit_start(){
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='docker';nvm use v12.18.3;cd ~/Trobbit; docker-compose up; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Administration'; cd ~/Trobbit/TrobbitAdministration; nest start --watch; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Operation'; cd ~/Trobbit/TrobbitOperation; nest start --watch; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Security'; cd ~/Trobbit/TrobbitSecurity; nest start --watch; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Gateway'; cd ~/Trobbit/TrobbitApi; nest start --watch; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Client'; cd ~/Trobbit/TrobbitClient; npm start; exec bash;"
-	gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Socket'; cd ~/Trobbit/TrobbitSocket; nest start --watch; exec bash;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='docker';nvm use v12.18.3;cd ~/Trobbit; docker-compose up; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Administration';nvm use v12.18.3;cd ~/Trobbit/TrobbitAdministrationService; npm run start:dev; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Operation'; nvm use v12.18.3;cd ~/Trobbit/TrobbitOperationService; npm run start:dev; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Security';nvm use v12.18.3;cd ~/Trobbit/TrobbitSecurityService; npm run start:dev; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Gateway';nvm use v12.18.3;cd ~/Trobbit/TrobbitApi; npm run start:dev; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Client';nvm use v12.18.3;cd ~/Trobbit/TrobbitClient; npm start; exec zsh;"
+	gnome-terminal --tab -- zsh -ic "export TITLE_DEFAULT='Socket';nvm use v12.18.3;cd ~/Trobbit/TrobbitSocket; npm run start:dev; exec zsh;"
 }
 
 
