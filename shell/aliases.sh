@@ -34,5 +34,10 @@ alias up='dot package update_all'
 # Docker
 alias dcon="docker_connect"
 alias dprune="docker_prune"
+
+# Trobbit Inc
+
+alias trobbit="trobbit_start"
+
 # SSH
 alias awsssh="aws_ssh"

@@ -63,3 +63,16 @@ ec2_instance_public_ip() {
   local ip=$(aws ec2 describe-instances --output text --filters "Name=tag:Name,Values=*" --query "Reservations[*].Instances[*].{IP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value}" | fzf | awk '{print $1}')
   echo "$ip"
 }
+
+trobbit_start(){
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Administration'; cd ~/Trobbit/TrobbitAdministration; nest start --watch; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Operation'; cd ~/Trobbit/TrobbitOperation; nest start --watch; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Security'; cd ~/Trobbit/TrobbitSecurity; nest start --watch; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Gateway'; cd ~/Trobbit/TrobbitApi; nest start --watch; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Client'; cd ~/Trobbit/TrobbitClient; npm start; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='Socket'; cd ~/Trobbit/TrobbitSocket; nest start --watch; exec bash;"
+gnome-terminal --tab -- bash -ic "export TITLE_DEFAULT='docker'; cd ~/Trobbit; docker-compose up; exec bash;"
+}
+
+
+
