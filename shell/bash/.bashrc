@@ -57,3 +57,4 @@ clone_git_repo() {
   git clone "$repo_url"
   echo "$repo_url"
 }
+. "$HOME/.cargo/env"
