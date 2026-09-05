@@ -1,0 +1,11 @@
+#Requires -Version 5.1
+# This script re-runs automatically whenever dot_config/mise/config.toml changes.
+# config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+$ErrorActionPreference = "Stop"
+
+if (Get-Command mise -ErrorAction SilentlyContinue) {
+    Write-Host "==> Installing runtimes declared in mise config.toml..."
+    mise install
+} else {
+    Write-Warning "mise not found on PATH yet — it should have been installed by the package step. Skipping."
+}

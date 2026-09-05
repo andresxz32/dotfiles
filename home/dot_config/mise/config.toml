@@ -1,0 +1,13 @@
+# Global default tool versions. Managed by chezmoi — edit via `chezmoi edit ~/.config/mise/config.toml`.
+# Per-project overrides go in a project-local `.mise.toml` (or legacy `.nvmrc`/`.python-version`,
+# which mise reads natively via idiomatic_version_file below).
+
+[tools]
+node    = "lts"
+python  = "3.12"
+rust    = "stable"
+go      = "latest"
+
+[settings]
+idiomatic_version_file = true   # respect .nvmrc / .python-version / .ruby-version in projects
+experimental = true             # needed for some newer backends (npm:, cargo:, etc.)

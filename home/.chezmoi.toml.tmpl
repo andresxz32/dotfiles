@@ -1,0 +1,21 @@
+{{- $email := promptStringOnce . "email" "Git email address" -}}
+{{- $name := promptStringOnce . "name" "Git full name" -}}
+{{- $profile := promptChoiceOnce . "profile" "Machine profile" (list "personal" "work") "personal" -}}
+{{- $useWSL := false -}}
+{{- if eq .chezmoi.os "windows" -}}
+{{-   $useWSL = promptBoolOnce . "useWSL" "Use WSL2 as primary dev environment?" true -}}
+{{- end -}}
+
+[data]
+    name    = {{ $name | quote }}
+    email   = {{ $email | quote }}
+    profile = {{ $profile | quote }}
+    useWSL  = {{ $useWSL }}
+
+# Chezmoi behavior tuning
+[git]
+    autoCommit = false
+    autoPush   = false
+
+[diff]
+    pager = "less"

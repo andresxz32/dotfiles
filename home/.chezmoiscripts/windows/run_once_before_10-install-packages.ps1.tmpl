@@ -1,0 +1,7 @@
+#Requires -Version 5.1
+$ErrorActionPreference = "Stop"
+
+{{- if eq .chezmoi.os "windows" }}
+Write-Host "==> Importing packages from winget.json..."
+winget import -i "{{ .chezmoi.sourceDir }}\..\packages\winget.json" --accept-package-agreements --accept-source-agreements
+{{- end }}

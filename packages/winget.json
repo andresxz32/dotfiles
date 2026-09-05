@@ -1,0 +1,37 @@
+{
+    "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+    "CreationDate": "2026-09-04",
+    "Sources": [
+        {
+            "Packages": [
+                { "PackageIdentifier": "Git.Git" },
+                { "PackageIdentifier": "GitHub.cli" },
+                { "PackageIdentifier": "Neovim.Neovim" },
+                { "PackageIdentifier": "Starship.Starship" },
+                { "PackageIdentifier": "jftuga.less" },
+                { "PackageIdentifier": "sharkdp.bat" },
+                { "PackageIdentifier": "sharkdp.fd" },
+                { "PackageIdentifier": "BurntSushi.ripgrep.MSVC" },
+                { "PackageIdentifier": "junegunn.fzf" },
+                { "PackageIdentifier": "ajeetdsouza.zoxide" },
+                { "PackageIdentifier": "eza-community.eza" },
+                { "PackageIdentifier": "jqlang.jq" },
+                { "PackageIdentifier": "dandavison.delta" },
+                { "PackageIdentifier": "Microsoft.WindowsTerminal" },
+                { "PackageIdentifier": "Microsoft.PowerShell" },
+                { "PackageIdentifier": "wez.wezterm" },
+                { "PackageIdentifier": "Docker.DockerDesktop" },
+                { "PackageIdentifier": "Microsoft.VisualStudioCode" },
+                { "PackageIdentifier": "jdx.mise" },
+                { "PackageIdentifier": "DEVCOM.JetBrainsMonoNerdFont" }
+            ],
+            "SourceDetails": {
+                "Argument": "https://cdn.winget.microsoft.com/cache",
+                "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+                "Name": "winget",
+                "Type": "Microsoft.PreIndexed.Package"
+            }
+        }
+    ],
+    "WinGetVersion": "1.8.0"
+}

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script re-runs automatically whenever dot_config/mise/config.toml changes,
+# because its rendered content (including the hash below) changes too.
+# config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -euo pipefail
+
+if command -v mise &>/dev/null; then
+  echo "==> Installing runtimes declared in mise config.toml..."
+  mise install
+else
+  echo "mise not found on PATH yet — it should have been installed by the package step. Skipping." >&2
+fi

@@ -1,0 +1,24 @@
+local wezterm = require("wezterm")
+local config = wezterm.config_builder()
+
+-- Appearance
+config.font = wezterm.font("JetBrainsMono Nerd Font")
+config.font_size = 13.0
+config.color_scheme = "Catppuccin Mocha"
+config.window_decorations = "RESIZE"
+config.window_padding = { left = 8, right = 8, top = 8, bottom = 8 }
+config.enable_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = true
+config.window_background_opacity = 0.97
+
+-- Behavior
+config.scrollback_lines = 10000
+config.adjust_window_size_when_changing_font_size = false
+
+{{- if and (eq .chezmoi.os "windows") .useWSL }}
+
+-- On Windows with WSL2 as the primary dev environment, default straight into it
+config.default_domain = "WSL:Ubuntu"
+{{- end }}
+
+return config

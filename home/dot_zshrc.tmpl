@@ -1,0 +1,93 @@
+#
+# ~/.zshrc — managed by chezmoi. Edit via `chezmoi edit ~/.zshrc`, not directly.
+#
+
+# ---------------------------------------------------------------------------
+# History
+# ---------------------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# ---------------------------------------------------------------------------
+# Sane defaults
+# ---------------------------------------------------------------------------
+setopt AUTO_CD
+setopt CORRECT
+export EDITOR="nvim"
+export VISUAL="nvim"
+export LANG="en_US.UTF-8"
+
+# ---------------------------------------------------------------------------
+# PATH
+# ---------------------------------------------------------------------------
+{{- if eq .chezmoi.os "darwin" }}
+if [[ -d "/opt/homebrew/bin" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+{{- else if eq .chezmoi.os "linux" }}
+if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+{{- end }}
+export PATH="$HOME/.local/bin:$PATH"
+
+# ---------------------------------------------------------------------------
+# Tool initialization (order matters: mise -> zoxide/fzf -> starship last)
+# ---------------------------------------------------------------------------
+command -v mise    &>/dev/null && eval "$(mise activate zsh)"
+command -v zoxide  &>/dev/null && eval "$(zoxide init zsh)"
+command -v fzf     &>/dev/null && source <(fzf --zsh)
+command -v starship &>/dev/null && eval "$(starship init zsh)"
+
+# ---------------------------------------------------------------------------
+# Modern CLI replacements
+# ---------------------------------------------------------------------------
+if command -v eza &>/dev/null; then
+  alias ls="eza --icons --group-directories-first"
+  alias ll="eza -lh --icons --group-directories-first"
+  alias la="eza -lah --icons --group-directories-first"
+  alias lt="eza --tree --icons --level=2"
+fi
+
+if command -v bat &>/dev/null; then
+  alias cat="bat --paging=never"
+fi
+
+command -v rg &>/dev/null && alias grep="rg"
+command -v fd &>/dev/null && alias find="fd"
+
+alias cd="z" 2>/dev/null  # zoxide overrides `cd` implicitly via `zoxide init`; kept as a visible reminder
+
+# ---------------------------------------------------------------------------
+# Git shortcuts
+# ---------------------------------------------------------------------------
+alias g="git"
+alias gs="git status -sb"
+alias gd="git diff"
+alias gc="git commit -v"
+alias gp="git push"
+alias gl="git log --oneline --graph --decorate -20"
+command -v lazygit &>/dev/null && alias lg="lazygit"
+
+# ---------------------------------------------------------------------------
+# Docker shortcuts
+# ---------------------------------------------------------------------------
+alias dk="docker"
+alias dkc="docker compose"
+
+# ---------------------------------------------------------------------------
+# Profile-specific overrides ({{ .profile }})
+# ---------------------------------------------------------------------------
+{{- if eq .profile "work" }}
+# Add work-only env vars / aliases / VPN helpers here
+{{- end }}
+
+# ---------------------------------------------------------------------------
+# Machine-local overrides (never synced — gitignored on purpose)
+# ---------------------------------------------------------------------------
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

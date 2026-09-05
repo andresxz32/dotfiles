@@ -1,0 +1,68 @@
+#
+# PowerShell profile — managed by chezmoi. Edit via `chezmoi edit $PROFILE`, not directly.
+# This is the native-Windows counterpart to dot_zshrc.tmpl — same tools, same prompt.
+#
+
+# ---------------------------------------------------------------------------
+# Shared prompt: same starship.toml used by Zsh on macOS/Linux/WSL
+# ---------------------------------------------------------------------------
+$env:STARSHIP_CONFIG = "$HOME\.config\starship.toml"
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (&starship init powershell)
+}
+
+# ---------------------------------------------------------------------------
+# Tool initialization
+# ---------------------------------------------------------------------------
+if (Get-Command mise -ErrorAction SilentlyContinue) {
+    mise activate pwsh | Out-String | Invoke-Expression
+}
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+}
+
+# ---------------------------------------------------------------------------
+# Modern CLI replacements
+# ---------------------------------------------------------------------------
+if (Get-Command eza -ErrorAction SilentlyContinue) {
+    Remove-Item Alias:ls -ErrorAction SilentlyContinue
+    function ls  { eza --icons --group-directories-first @args }
+    function ll  { eza -lh --icons --group-directories-first @args }
+    function la  { eza -lah --icons --group-directories-first @args }
+    function lt  { eza --tree --icons --level=2 @args }
+}
+if (Get-Command bat -ErrorAction SilentlyContinue) {
+    Remove-Item Alias:cat -ErrorAction SilentlyContinue
+    function cat { bat --paging=never @args }
+}
+if (Get-Command rg -ErrorAction SilentlyContinue) {
+    Set-Alias grep rg
+}
+
+# ---------------------------------------------------------------------------
+# Git / Docker shortcuts
+# ---------------------------------------------------------------------------
+function g   { git @args }
+function gs  { git status -sb }
+function gd  { git diff }
+function gc  { git commit -v }
+function gp  { git push }
+function gl  { git log --oneline --graph --decorate -20 }
+if (Get-Command lazygit -ErrorAction SilentlyContinue) { function lg { lazygit } }
+
+function dk  { docker @args }
+function dkc { docker compose @args }
+
+{{- if .useWSL }}
+
+# ---------------------------------------------------------------------------
+# WSL convenience: jump straight into your Linux dev environment
+# ---------------------------------------------------------------------------
+function ubuntu { wsl.exe -d Ubuntu }
+{{- end }}
+
+# ---------------------------------------------------------------------------
+# Machine-local overrides (never synced)
+# ---------------------------------------------------------------------------
+$localProfile = "$HOME\.ps_profile.local.ps1"
+if (Test-Path $localProfile) { . $localProfile }

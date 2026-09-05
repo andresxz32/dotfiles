@@ -1,0 +1,37 @@
+# -----------------------------------------------------------------
+# Core CLI / DevEx tools (macOS + Linux via Homebrew on Linux)
+# -----------------------------------------------------------------
+brew "git"
+brew "gh"                # GitHub CLI
+brew "lazygit"
+brew "eza"                # modern ls
+brew "bat"                # modern cat
+brew "ripgrep"            # modern grep
+brew "fd"                 # modern find
+brew "fzf"                # fuzzy finder
+brew "zoxide"             # smarter cd
+brew "jq"
+brew "git-delta"          # pretty git diffs, referenced in .gitconfig
+brew "btop"               # modern top/htop
+brew "starship"           # cross-shell prompt
+brew "mise"               # unified runtime manager (node/python/rust/...)
+brew "neovim"
+brew "tmux"
+
+# -----------------------------------------------------------------
+# GUI apps (casks) — macOS only, brew will skip these on Linux
+# -----------------------------------------------------------------
+cask "wezterm"
+cask "docker"
+cask "font-jetbrains-mono-nerd-font"
+cask "visual-studio-code"
+
+# -----------------------------------------------------------------
+# VS Code extensions (synced via `code --install-extension`)
+# Kept here so one command — `brew bundle` — drives the whole setup
+# -----------------------------------------------------------------
+vscode "editorconfig.editorconfig"
+vscode "eamodio.gitlens"
+vscode "esbenp.prettier-vscode"
+vscode "catppuccin.catppuccin-vsc"
+vscode "pkief.material-icon-theme"

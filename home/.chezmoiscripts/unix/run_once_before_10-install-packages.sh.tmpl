@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Runs exactly once per machine (chezmoi tracks a hash of this file).
+# To force a re-run after editing the Brewfile, use a run_onchange_ script instead.
+set -euo pipefail
+
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") }}
+echo "==> Installing packages from Brewfile..."
+brew bundle --file="{{ .chezmoi.sourceDir }}/../packages/Brewfile"
+{{- end }}

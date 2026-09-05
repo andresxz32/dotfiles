@@ -1,0 +1,54 @@
+[user]
+    name  = {{ .name }}
+    email = {{ .email }}
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor = nvim
+    autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
+    pager = delta
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+[rerere]
+    enabled = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[alias]
+    st  = status -sb
+    co  = checkout
+    br  = branch
+    cm  = commit -v
+    lg  = log --oneline --graph --decorate -20
+    amend = commit --amend --no-edit
+    undo  = reset --soft HEAD~1
+
+# ---------------------------------------------------------------------------
+# Profile-based overrides — active profile is "{{ .profile }}"
+# Put a real work identity / signing key in ~/.gitconfig.local on that machine.
+# Git silently skips this include if the file doesn't exist.
+# ---------------------------------------------------------------------------
+[include]
+    path = ~/.gitconfig.local
