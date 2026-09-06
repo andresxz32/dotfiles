@@ -25,7 +25,18 @@ if (-not (Get-Command chezmoi -ErrorAction SilentlyContinue)) {
 }
 
 # --- 3. Offer WSL2 setup (recommended dev environment) ---------------------
-$wslInstalled = wsl --list --quiet 2>$null
+# Note: wsl.exe returns a non-zero exit code when the WSL feature isn't
+# installed at all. On PowerShell 7.3+, $ErrorActionPreference = "Stop"
+# turns that into a terminating error even with stderr redirected to $null,
+# so this has to be wrapped in try/catch rather than relying on redirection.
+$wslInstalled = $false
+try {
+    $null = wsl --list --quiet 2>$null
+    if ($LASTEXITCODE -eq 0) { $wslInstalled = $true }
+} catch {
+    $wslInstalled = $false
+}
+
 if (-not $wslInstalled) {
     $installWsl = Read-Host "WSL2/Ubuntu not detected. Install it now? (recommended) [Y/n]"
     if ($installWsl -ne "n") {
