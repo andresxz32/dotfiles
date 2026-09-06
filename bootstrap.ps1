@@ -14,7 +14,7 @@ function Write-Info($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 # --- 1. Ensure winget is available ----------------------------------------
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     Write-Error "winget not found. Install 'App Installer' from the Microsoft Store first, then re-run this script."
-    exit 1
+    return
 }
 
 # --- 2. Install chezmoi via winget -----------------------------------------
@@ -43,7 +43,8 @@ if (-not $wslInstalled) {
         Write-Info "Installing WSL2 + Ubuntu..."
         wsl --install -d Ubuntu
         Write-Host "WSL2 is installing. Reboot when prompted, then re-run this script to continue." -ForegroundColor Yellow
-        exit 0
+        Read-Host "Press Enter to close this window"
+        return
     }
 }
 
