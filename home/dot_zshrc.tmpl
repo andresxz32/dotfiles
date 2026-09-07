@@ -22,6 +22,16 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export LANG="en_US.UTF-8"
 
+# WSL doesn't always create /run/user/$UID the way a normal Linux login
+# session does, which breaks tools (chezmoi, gpg-agent, etc.) that expect
+# XDG_RUNTIME_DIR to exist and be writable.
+if [[ ! -d "/run/user/$(id -u)" ]] || [[ ! -w "/run/user/$(id -u)" ]]; then
+  export XDG_RUNTIME_DIR="/tmp/runtime-$USER"
+  mkdir -p "$XDG_RUNTIME_DIR"
+  chmod 700 "$XDG_RUNTIME_DIR"
+fi
+
+
 # ---------------------------------------------------------------------------
 # PATH
 # ---------------------------------------------------------------------------
