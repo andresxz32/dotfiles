@@ -1,6 +1,6 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-
+local act = wezterm.action
 -- Appearance
 config.font = wezterm.font("JetBrainsMono Nerd Font")
 config.font_size = 13.0
@@ -20,5 +20,54 @@ config.adjust_window_size_when_changing_font_size = false
 -- On Windows with WSL2 as the primary dev environment, default straight into it
 config.default_domain = "WSL:Ubuntu"
 {{- end }}
+
+
+config.keys = {
+  -- Clipboard: Ctrl+C mimics Windows Terminal's smart behavior --
+  -- copies if text is selected, otherwise sends the actual interrupt signal.
+  {
+    key = "c", mods = "CTRL",
+    action = wezterm.action_callback(function(window, pane)
+      local has_selection = window:get_selection_text_for_pane(pane) ~= ""
+      if has_selection then
+        window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
+        window:perform_action(act.ClearSelection, pane)
+      else
+        window:perform_action(act.SendKey({ key = "c", mods = "CTRL" }), pane)
+      end
+    end),
+  },
+  { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
+  { key = "v", mods = "CTRL",       action = act.PasteFrom("Clipboard") },
+  { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
+
+  -- Tabs (Windows Terminal parity)
+  { key = "t", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "w", mods = "CTRL|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
+  { key = "u", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") }, -- "duplicate" (moved from Ctrl+Shift+D)
+  { key = "Tab", mods = "CTRL",       action = act.ActivateTabRelative(1) },
+  { key = "Tab", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
+  { key = "1", mods = "CTRL|ALT", action = act.ActivateTab(0) },
+  { key = "2", mods = "CTRL|ALT", action = act.ActivateTab(1) },
+  { key = "3", mods = "CTRL|ALT", action = act.ActivateTab(2) },
+  { key = "4", mods = "CTRL|ALT", action = act.ActivateTab(3) },
+  { key = "5", mods = "CTRL|ALT", action = act.ActivateTab(4) },
+
+  -- Windows
+  { key = "n", mods = "CTRL|SHIFT", action = act.SpawnWindow },
+  { key = "a", mods = "CTRL|SHIFT", action = act.ToggleAlwaysOnTop }, -- moved from Ctrl+Shift+Z
+
+  -- Font size
+  { key = "=", mods = "CTRL", action = act.IncreaseFontSize },
+  { key = "-", mods = "CTRL", action = act.DecreaseFontSize },
+  { key = "0", mods = "CTRL", action = act.ResetFontSize },
+
+  -- Fullscreen
+  { key = "F11", mods = "NONE", action = act.ToggleFullScreen },
+
+  -- Extras
+  { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
+  { key = "space", mods = "CTRL|SHIFT", action = act.QuickSelect },
+}
 
 return config
