@@ -7,5 +7,5 @@ if (Get-Command mise -ErrorAction SilentlyContinue) {
     Write-Host "==> Installing runtimes declared in mise config.toml..."
     mise install
 } else {
-    Write-Warning "mise not found on PATH yet — it should have been installed by the package step. Skipping."
+    Write-Warning "mise not found on PATH yet - it should have been installed by the package step. Skipping."
 }
