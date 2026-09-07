@@ -89,3 +89,8 @@ The `packages/` manifests still contain **starter package lists**, not a real ex
 .\scripts\update-packages.ps1     # Windows — regenerates packages/winget.json
 ```
 Commit the result. From then on, every fresh machine installs the *exact* versions you're actually running — not the placeholders from this scaffold.
+
+
+# IP + RAM + CPU in the bottom status bar
+set -g status-right "IP: #(hostname -I | awk '{print $1}') | RAM: #(free -m | awk '/Mem/{printf $3\"/\"$2\"MB \"$7}') | CPU: #(top -bn1 | grep \"Cpu(s)\" | awk '{print $2\"%\"}') | %H:%M"
+set -g status-right-length 60

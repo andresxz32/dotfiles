@@ -7,6 +7,10 @@ AppData/**
 {{- end }}
 
 {{- if eq .chezmoi.os "windows" }}
+# tmux doesn't run natively on Windows -- it lives inside WSL, applied there
+# by a separate chezmoi run where .chezmoi.os is "linux", not "windows".
+.tmux.conf
+.config/tmux/**
 {{- if .useWSL }}
 # On Windows+WSL, the *nix shell config lives inside the WSL distro,
 # not on the Windows filesystem — so skip it at the Windows layer.
