@@ -64,6 +64,8 @@ This is the whole point of `mise` over `nvm`: versions travel with the project, 
 | `Ctrl+b` then `d` | detach (work keeps running in background) |
 | `tmux attach` | reattach to it later |
 | `Ctrl+b` then `%` / `"` | split pane vertically / horizontally |
+| `Ctrl+b` then `Up/Down/Left/Right` | Move between pane |
+| `Ctrl+b hold...` then `Up/Down/Left/Right` | Resize pane |
 
 ---
 
