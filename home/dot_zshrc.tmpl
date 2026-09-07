@@ -103,3 +103,14 @@ alias dkc="docker compose"
 # Machine-local overrides (never synced)
 # ---------------------------------------------------------------------------
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+# ---------------------------------------------------------------------------
+# Auto-start tmux (skip if already inside tmux, or inside VS Code's terminal)
+# ---------------------------------------------------------------------------
+if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] && command -v tmux &>/dev/null; then
+  if tmux has-session -t main 2>/dev/null; then
+    exec tmux attach -t main
+  else
+    exec tmux new -s main
+  fi
+fi
