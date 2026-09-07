@@ -1,5 +1,6 @@
 {{- $email := promptStringOnce . "email" "Git email address" -}}
 {{- $name := promptStringOnce . "name" "Git full name" -}}
+{{- $username := promptStringOnce . "username" "Git username" -}}
 {{- $profile := promptChoiceOnce . "profile" "Machine profile" (list "personal" "work") "personal" -}}
 {{- $useWSL := false -}}
 {{- if eq .chezmoi.os "windows" -}}
@@ -7,12 +8,11 @@
 {{- end -}}
 
 [data]
-    name    = {{ $name | quote }}
-    email   = {{ $email | quote }}
+    name     = {{ $name | quote }}
+    email    = {{ $email | quote }}
     username = {{ $username | quote }}
-    profile = {{ $profile | quote }}
-    useWSL  = {{ $useWSL }}
-    
+    profile  = {{ $profile | quote }}
+    useWSL   = {{ $useWSL }}
 
 # Chezmoi behavior tuning
 [git]
