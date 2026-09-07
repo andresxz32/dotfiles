@@ -1,6 +1,7 @@
 # -----------------------------------------------------------------
 # Core CLI / DevEx tools (macOS + Linux via Homebrew on Linux)
 # -----------------------------------------------------------------
+brew "zsh"
 brew "git"
 brew "gh"                # GitHub CLI
 brew "lazygit"
