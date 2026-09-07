@@ -61,13 +61,23 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 
 # ---------------------------------------------------------------------------
-# Tool initialization (order matters: mise -> zoxide/fzf -> starship last)
+# Tool initialization -- Starship loads synchronously since it IS the
+# prompt (deferring it would flash a plain, unstyled prompt first).
+# mise/zoxide/fzf only add capabilities, not visible UI, so they're
+# deferred to right after the first prompt renders via a one-shot precmd
+# hook -- this means typing starts the instant the prompt appears,
+# with zero perceptible wait, regardless of how heavy these get later.
 # ---------------------------------------------------------------------------
-command -v mise    &>/dev/null && eval "$(mise activate zsh)"
-command -v zoxide  &>/dev/null && eval "$(zoxide init zsh)"
-command -v fzf     &>/dev/null && source <(fzf --zsh)
 command -v starship &>/dev/null && eval "$(starship init zsh)"
 
+autoload -Uz add-zsh-hook
+_defer_heavy_setup() {
+  command -v mise   &>/dev/null && eval "$(mise activate zsh --shims)"
+  command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+  command -v fzf    &>/dev/null && source <(fzf --zsh)
+  add-zsh-hook -d precmd _defer_heavy_setup   # run once, then remove itself
+}
+add-zsh-hook precmd _defer_heavy_setup
 # ---------------------------------------------------------------------------
 # Modern CLI replacements
 # ---------------------------------------------------------------------------
