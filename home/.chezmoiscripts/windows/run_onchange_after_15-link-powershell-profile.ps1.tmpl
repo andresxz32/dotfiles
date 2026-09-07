@@ -1,0 +1,16 @@
+#Requires -Version 5.1
+# Links both PowerShell 5.1 and PowerShell 7 profiles to our managed config,
+# using .NET's shell-folder API so this works correctly even when OneDrive
+# has redirected Documents to a different path.
+$ErrorActionPreference = "Stop"
+
+$docs   = [Environment]::GetFolderPath("MyDocuments")
+$source = Join-Path $HOME ".config\powershell\profile.ps1"
+$stub   = ". `"$source`""
+
+foreach ($sub in @("WindowsPowerShell", "PowerShell")) {
+    $dir = Join-Path $docs $sub
+    if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    Set-Content -Path (Join-Path $dir "Microsoft.PowerShell_profile.ps1") -Value $stub -Encoding UTF8
+}
+Write-Host "==> Linked PowerShell profiles to $source"

@@ -24,25 +24,30 @@ if (-not (Get-Command chezmoi -ErrorAction SilentlyContinue)) {
     $env:Path += ";$env:LOCALAPPDATA\Microsoft\WinGet\Packages"
 }
 
-# --- 3. Offer WSL2 setup (recommended dev environment) ---------------------
-# Note: wsl.exe returns a non-zero exit code when the WSL feature isn't
-# installed at all. On PowerShell 7.3+, $ErrorActionPreference = "Stop"
-# turns that into a terminating error even with stderr redirected to $null,
-# so this has to be wrapped in try/catch rather than relying on redirection.
-$wslInstalled = $false
+# --- 3. Offer WSL2/Ubuntu setup (recommended dev environment) --------------
+# wsl.exe returns a non-zero exit code AND can throw a terminating error when
+# $ErrorActionPreference = "Stop", so this must be wrapped in try/catch.
+# We check for "Ubuntu" specifically, not just that wsl.exe runs -- the WSL
+# platform can be "installed" (feature enabled) with zero distros present,
+# which happens if a previous `wsl --install` run got interrupted.
+# wsl.exe also emits UTF-16 output that can arrive with embedded null bytes
+# in PowerShell, so those are stripped before pattern matching.
+$ubuntuInstalled = $false
 try {
-    $null = wsl --list --quiet 2>$null
-    if ($LASTEXITCODE -eq 0) { $wslInstalled = $true }
+    $distros = (wsl --list --quiet 2>$null) -replace "`0", ""
+    if ($LASTEXITCODE -eq 0 -and ($distros -match "Ubuntu")) {
+        $ubuntuInstalled = $true
+    }
 } catch {
-    $wslInstalled = $false
+    $ubuntuInstalled = $false
 }
 
-if (-not $wslInstalled) {
-    $installWsl = Read-Host "WSL2/Ubuntu not detected. Install it now? (recommended) [Y/n]"
+if (-not $ubuntuInstalled) {
+    $installWsl = Read-Host "Ubuntu (WSL2) not detected. Install it now? (recommended) [Y/n]"
     if ($installWsl -ne "n") {
         Write-Info "Installing WSL2 + Ubuntu..."
         wsl --install -d Ubuntu
-        Write-Host "WSL2 is installing. Reboot when prompted, then re-run this script to continue." -ForegroundColor Yellow
+        Write-Host "WSL2/Ubuntu is installing. Reboot when prompted, then re-run this script to continue." -ForegroundColor Yellow
         Read-Host "Press Enter to close this window"
         return
     }

@@ -4,7 +4,6 @@
 {{- if ne .chezmoi.os "windows" }}
 # Windows-only targets: skip everywhere else
 AppData/**
-Documents/PowerShell/**
 {{- end }}
 
 {{- if eq .chezmoi.os "windows" }}
