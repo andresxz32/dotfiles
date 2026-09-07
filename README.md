@@ -8,7 +8,7 @@ One repo → macOS, Linux, and Windows (via WSL2 for the *nix layer + a thin nat
 
 **macOS / Linux:**
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/andresxz32/dotfiles/main/bootstrap.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/andresxz32/dotfiles/main/bootstrap.sh)"
 ```
 
 **Windows (PowerShell, run as your normal user):**
